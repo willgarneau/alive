@@ -1,0 +1,731 @@
+####ALIVE PROJECT
+head(alive)
+install.packages("tidyverse")
+install.packages("dplyr")
+install.packages("readxl")
+
+
+library(tidyverse)
+library(dplyr)
+library(readxl)
+library(gtsummary)
+
+alive3t <- read_excel("last_ed_visit_6FEB24xx.xlsx")
+alive3t <-### read_csv("last_ed_visit_6FEB24.xlsx")
+
+
+
+###Count
+alive %>% count(dthdate)
+
+###DATASET FOR THOSE WITH ED VIS and ALIVE VIS
+alive1= filter(alive, ed_count> 0 & yrsbtwn_dth_ed2<2 & yrsbtwn_dth_vis<2)
+alive2= filter(alive, ed_count> 0)
+alive3= filter(alive3t, daysdth>0)
+alive3l= filter(alive3t, daysdth>0 & daysdth_bin>0)
+alive3m= filter(alive3t, daysdth>0 & daysdth_bin==0)
+alive3sex= filter(alive3t, daysdth>0 & daysdth_bin==0 & daysdth_bin>0)
+
+count(alive3l)
+
+###DEMOGRAPHICS
+###age
+age=alive3$age
+summary(age, na.rm=TRUE)
+mean(age, na.rm=TRUE)
+sd(age, na.rm=TRUE)
+
+age1=alive3l$age
+summary(age1, na.rm=TRUE)
+mean(age1, na.rm=TRUE)
+sd(age1, na.rm=TRUE)
+
+age2=alive3m$age
+summary(age2, na.rm=TRUE)
+mean(age2, na.rm=TRUE)
+sd(age2, na.rm=TRUE)
+
+t.test(age1, age2)
+
+
+###race
+race=alive3$black
+table(race)
+prop.table(table(race))
+
+race1=alive3l$black
+table(race1)
+prop.table(table(race1))
+
+race2=alive3m$black
+table(race2)
+prop.table(table(race2))
+
+m <-cbind(table(race1),table(race2))
+chisq.test(m)
+
+###mof
+?read.table()
+as.numeric(plat1)
+typeof(alive3$plat1)
+alive3sex$male= cut(alive3$xxx, c(-0.5,1.5,2.5), right=FALSE,
+                      labels=c("1","2"))
+mf=alive3$xxx
+table(mf)
+prop.table(table(mf))
+
+mf1=alive3l$male
+table(mf1)
+prop.table(table(mf1))
+
+mf2=alive3m$male
+table(mf2)
+prop.table(table(mf2))
+
+l <-cbind(table(mf1),table(mf2))
+chisq.test(l)
+
+####BEHAVIORAL DATA
+
+###alcyn
+alc=alive3$alcyn
+table(alive3$alcyn)
+prop.table(table(alive3$alcyn))
+
+alc1=alive3l$alcyn
+table(alive3l$alcyn)
+prop.table(table(alive3l$alcyn))
+
+alc2=alive3m$alcyn
+table(alive3m$alcyn)
+prop.table(table(alive3m$alcyn))
+
+k <-cbind(table(alc1),table(alc2))
+chisq.test(k)
+
+###curuser
+curuser=alive3$curuser
+table(alive3$curuser)
+prop.table(table(alive3$curuser))
+
+curuser1=alive3l$curuser
+table(alive3l$curuser)
+prop.table(table(alive3l$curuser))
+
+curuser2=alive3m$curuser
+table(alive3m$curuser)
+prop.table(table(alive3m$curuser))
+
+j <-cbind(table(curuser1),table(curuser2))
+chisq.test(j)
+
+
+###injcoc
+injcoc=alive3$injcoc
+table(alive3$injcoc)
+prop.table(table(alive3$injcoc))
+
+injcoc1=alive3l$injcoc
+table(alive3l$injcoc)
+prop.table(table(alive3l$injcoc))
+
+injcoc2=alive3m$injcoc
+table(alive3m$injcoc)
+prop.table(table(alive3m$injcoc))
+
+i <-cbind(table(injcoc1),table(injcoc2))
+chisq.test(i)
+
+###cesd16
+cesd16=alive3$cesd16
+table(alive3$cesd16)
+prop.table(table(alive3$cesd16))
+
+cesd161=alive3l$cesd16
+table(alive3l$cesd16)
+prop.table(table(alive3l$cesd16))
+
+cesd162=alive3m$cesd16
+table(alive3m$cesd16)
+prop.table(table(alive3m$cesd16))
+
+h <-cbind(table(cesd161),table(cesd162))
+chisq.test(h)
+
+###cesd23
+cesd23=alive3$cesd23
+table(alive3$cesd23)
+prop.table(table(alive3$cesd23))
+
+cesd231=alive3l$cesd23
+table(alive3l$cesd23)
+prop.table(table(alive3l$cesd23))
+
+cesd232=alive3m$cesd23
+table(alive3m$cesd23)
+prop.table(table(alive3m$cesd23))
+
+g <-cbind(table(cesd231),table(cesd232))
+chisq.test(g)
+
+###anyhomels
+anyhomels=alive3$anyhomels
+table(alive3$anyhomels)
+prop.table(table(alive3$anyhomels))
+
+anyhomels1=alive3l$anyhomels
+table(alive3l$anyhomels)
+prop.table(table(alive3l$anyhomels))
+
+anyhomels2=alive3m$anyhomels
+table(alive3m$anyhomels)
+prop.table(table(alive3m$anyhomels))
+
+f <-cbind(table(anyhomels1),table(anyhomels2))
+chisq.test(f)
+
+###suicidal thoughts
+thoughts=alive3$thoughts
+table(alive3$thoughts)
+prop.table(table(alive3m$thoughts))
+
+thoughts1=alive3l$thoughts
+table(alive3l$thoughts)
+prop.table(table(alive3l$thoughts))
+
+thoughts2=alive3m$thoughts
+table(alive3m$thoughts)
+prop.table(table(alive3m$thoughts))
+
+e <-cbind(table(thoughts1),table(thoughts2))
+chisq.test(e)
+
+
+###suicidal attempt
+attempt=alive3$attempt
+table(alive3m$attempt)
+prop.table(table(alive3m$attempt))
+
+attempt1=alive3l$attempt
+table(alive3l$attempt)
+prop.table(table(alive3l$attempt))
+
+attempt2=alive3m$attempt
+table(alive3m$attempt)
+prop.table(table(alive3m$attempt))
+
+d <-cbind(table(attempt1),table(attempt2))
+chisq.test(d)
+
+
+
+###ALIVE BIOMARKER INFORMATION
+###Platelets, plat
+
+plat=alive3$plat
+summary(plat, na.rm=TRUE)
+mean(plat, na.rm=TRUE)
+sd(plat, na.rm=TRUE)
+
+plat1=alive3l$plat
+summary(plat1, na.rm=TRUE)
+mean(plat1, na.rm=TRUE)
+sd(plat1, na.rm=TRUE)
+
+plat2=alive3m$plat
+summary(plat2, na.rm=TRUE)
+mean(plat2, na.rm=TRUE)
+sd(plat2, na.rm=TRUE)
+
+t.test(plat1, plat2)
+
+###creatinine, screat
+screat=alive3$screat
+summary(screat, na.rm=TRUE)
+mean(screat, na.rm=TRUE)
+sd(screat, na.rm=TRUE)
+
+screat1=alive3l$screat
+summary(screat1, na.rm=TRUE)
+mean(screat1, na.rm=TRUE)
+sd(screat1, na.rm=TRUE)
+
+screat2=alive3m$screat
+summary(screat2, na.rm=TRUE)
+mean(screat2, na.rm=TRUE)
+sd(screat2, na.rm=TRUE)
+
+t.test(screat1, screat2)
+
+
+###ALT
+alive3$altx = cut(alive3$altz, c(1,36,1000), right=FALSE,
+                  labels=c("0-36","36+"))
+
+alive3l$altx = cut(alive3l$altz, c(1,36,1000), right=FALSE,
+                  labels=c("0-36","36+"))
+
+alive3m$altx = cut(alive3m$altz, c(1,36,1000), right=FALSE,
+                  labels=c("0-36","36+"))
+alt=alive3$altx
+table(alive3$altx)
+prop.table(table(alive3$altx))
+
+alt1=alive3l$altx
+table(alive3l$altx)
+prop.table(table(alive3l$altx))
+
+alt2=alive3m$altx
+table(alive3m$altx)
+prop.table(table(alive3m$altx))
+
+c <-cbind(table(alt1),table(alt2))
+chisq.test(c)
+
+
+###AST
+alive3$astx = cut(alive3$ast, c(1,33,1000), right=FALSE,
+                  labels=c("0-33","33+"))
+
+alive3l$astx = cut(alive3l$ast, c(1,33,1000), right=FALSE,
+                   labels=c("0-33","33+"))
+
+alive3m$astx = cut(alive3m$ast, c(1,33,1000), right=FALSE,
+                   labels=c("0-33","33+"))
+ast=alive3$astx
+table(alive3$astx)
+prop.table(table(alive3$astx))
+
+ast1=alive3l$astx
+table(alive3l$astx)
+prop.table(table(alive3l$astx))
+
+ast2=alive3m$astx
+table(alive3m$astx)
+prop.table(table(alive3m$astx))
+
+c <-cbind(table(ast1),table(ast2))
+chisq.test(c)
+
+
+###FIB4
+alive3$fib4=((alive3$age)*(alive3$ast))/alive3$plat
+alive3$fib5=(sqrt(alive3$alt_1))                                       
+alive3$fib6=(alive3$fib4)/(alive3$fib5)
+alive3$fibfin = cut(alive3$fib6, c(0,3.25,100), right=FALSE,
+                    labels=c("1","1+"))
+
+fibfin=alive3$fibfin
+table(alive3$fibfin)
+prop.table(table(alive3$fibfin))
+##
+alive3l$fib4=((alive3l$age)*(alive3l$ast))/alive3l$plat
+alive3l$fib5=(sqrt(alive3l$alt_1))                                       
+alive3l$fib6=(alive3l$fib4)/(alive3l$fib5)
+alive3l$fibfin = cut(alive3l$fib6, c(0,3.25,100), right=FALSE,
+                    labels=c("1","1+"))
+
+fibfin1=alive3l$fibfin
+table(alive3l$fibfin)
+prop.table(table(alive3l$fibfin))
+##
+alive3m$fib4=((alive3m$age)*(alive3m$ast))/alive3m$plat
+alive3m$fib5=(sqrt(alive3m$alt_1))                                       
+alive3m$fib6=(alive3m$fib4)/(alive3m$fib5)
+alive3m$fibfin = cut(alive3m$fib6, c(0,3.25,100), right=FALSE,
+                    labels=c("1","1+"))
+
+fibfin2=alive3m$fibfin
+table(alive3m$fibfin)
+prop.table(table(alive3m$fibfin))
+
+b <-cbind(table(fibfin1),table(fibfin2))
+chisq.test(b)
+
+####
+####
+####APRI
+alive3$apri=((alive3$ast/33)/alive3$plat)*100
+alive3$aprix = cut(alive3$apri, c(0,0.7,100), right=FALSE,
+                   labels=c("1","1+"))
+
+alive3l$apri=((alive3l$ast/33)/alive3l$plat)*100
+alive3l$aprix = cut(alive3l$apri, c(0,0.7,100), right=FALSE,
+                   labels=c("1","1+"))
+
+alive3m$apri=((alive3m$ast/33)/alive3m$plat)*100
+alive3m$aprix = cut(alive3m$apri, c(0,0.7,100), right=FALSE,
+                   labels=c("1","1+"))
+
+apri=alive3$aprix
+table(alive3$aprix)
+prop.table(table(alive3$aprix))
+
+apri1=alive3l$aprix
+table(alive3l$aprix)
+prop.table(table(alive3l$aprix))
+
+apri2=alive3m$aprix
+table(alive3m$aprix)
+prop.table(table(alive3m$aprix))
+
+
+a <-cbind(table(apri1),table(apri2))
+chisq.test(a)
+
+###fibroscan
+alive3$fibfib = cut(alive3$fb, c(0,18.5,1000), right=FALSE,
+                    labels=c("0","1"))
+alive3l$fibfib = cut(alive3l$fb, c(0,18.5,1000), right=FALSE,
+                    labels=c("0","1"))
+alive3m$fibfib = cut(alive3m$fb, c(0,18.5,1000), right=FALSE,
+                    labels=c("0","1"))
+
+fb=alive3$fibfib
+table(alive3$fibfib)
+prop.table(table(alive3$fibfib))
+
+fb1=alive3l$fibfib
+table(alive3l$fibfib)
+prop.table(table(alive3l$fibfib))
+
+fb2=alive3m$fibfib
+table(alive3m$fibfib)
+prop.table(table(alive3m$fibfib))
+
+z <-cbind(table(fb1),table(fb2))
+chisq.test(z)
+
+
+#######CRISP DATA
+alive3$num_drug_encounter1 = cut(alive3$num_drug_encounter, c(-0.5,0.5,10), right=FALSE,
+                                 labels=c("0","1"))
+alive3l$num_drug_encounter1 = cut(alive3l$num_drug_encounter, c(-0.5,0.5,10), right=FALSE,
+                                 labels=c("0","1"))
+alive3m$num_drug_encounter1 = cut(alive3m$num_drug_encounter, c(-0.5,0.5,10), right=FALSE,
+                                 labels=c("0","1"))
+
+numdrug=alive3$num_drug_encounter1
+table(alive3$num_drug_encounter1)
+prop.table(table(alive3$num_drug_encounter1))
+
+numdrug1=alive3l$num_drug_encounter1
+table(alive3l$num_drug_encounter1)
+prop.table(table(alive3l$num_drug_encounter1))
+           
+numdrug2=alive3m$num_drug_encounter1
+table(alive3m$num_drug_encounter1)
+prop.table(table(alive3m$num_drug_encounter1)) 
+
+y <-cbind(table(numdrug1),table(numdrug2))
+chisq.test(y)          
+
+
+##BH Visits
+alive3$edvisitsbh = cut(alive3$total_num_drug_icd, c(-0.5,0.5,1.5,1000), right=FALSE,
+                        labels=c("0","1","2"))
+
+alive3l$edvisitsbh = cut(alive3l$total_num_drug_icd, c(-0.5,0.5,1.5,1000), right=FALSE,
+                        labels=c("0","1","2"))
+
+alive3m$edvisitsbh = cut(alive3m$total_num_drug_icd, c(-0.5,0.5,1.5,1000), right=FALSE,
+                        labels=c("0","1","2"))
+
+bhvisits=alive3$edvisitsbh
+table(alive3$edvisitsbh)
+prop.table(table(alive3$edvisitsbh))
+
+bhvisits1=alive3l$edvisitsbh
+table(alive3l$edvisitsbh)
+prop.table(table(alive3l$edvisitsbh))
+
+bhvisits2=alive3m$edvisitsbh
+table(alive3m$edvisitsbh)
+prop.table(table(alive3m$edvisitsbh))
+
+x <-cbind(table(bhvisits1),table(bhvisits2))
+chisq.test(x)          
+
+
+###numedvisits
+alive3$edvisits = cut(alive3$numedvisits, c(0.5,1.5,2.5,1000), right=FALSE,
+                        labels=c("1","2","3+"))
+
+alive3l$edvisits = cut(alive3l$numedvisits, c(0.5,1.5,2.5,1000), right=FALSE,
+                         labels=c("1","2","3+"))
+
+alive3m$edvisits = cut(alive3m$numedvisits, c(0.5,1.5,2.5,1000), right=FALSE,
+                         labels=c("1","2","3+"))
+
+edvisits=alive3$edvisits
+table(alive3$edvisits)
+prop.table(table(alive3$edvisits))
+
+bhvisits1=alive3l$edvisitsbh
+table(alive3l$edvisitsbh)
+prop.table(table(alive3l$edvisitsbh))
+
+bhvisits2=alive3m$edvisitsbh
+table(alive3m$edvisitsbh)
+prop.table(table(alive3m$edvisitsbh))
+
+w <-cbind(table(bhvisits1),table(bhvisits2))
+chisq.test(w)          
+
+
+#####
+#####
+#####
+#####LOGISTIC REGRESSION MODELING
+
+####AGE
+modelC = glm(daysdth_bin ~ alive3$age,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$age + male + black + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+####RACE
+modelC = glm(daysdth_bin ~ alive3$black,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$black + male + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+###SEX
+modelC = glm(daysdth_bin ~ alive3$male,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+###Alc
+modelC = glm(daysdth_bin ~ alive3$alcyn,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$alcyn + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+###CESD16
+modelC = glm(daysdth_bin ~ alive3$cesd16,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$cesd16 + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+##CESD23
+modelC = glm(daysdth_bin ~ alive3$cesd23,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$cesd23 + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+###SUICIDAL THOUGHTS/ATTEMPTS
+
+
+modelC = glm(daysdth_bin ~ alive3$thoughts,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$thoughts + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+modelC = glm(daysdth_bin ~ alive3$attempt,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$attempt + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+####homelessness
+
+modelC = glm(daysdth_bin ~ alive3$anyhomels,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$anyhomels + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+###platelets
+modelC = glm(daysdth_bin ~ alive3$plat,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$plat + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+###serum creatinine
+modelC = glm(daysdth_bin ~ alive3$screat,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$screat + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+###AST/ALT
+
+modelC = glm(daysdth_bin ~ alive3$astx,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$astx + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+##
+
+modelC = glm(daysdth_bin ~ alive3$altx,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$altx + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+###FIB4
+modelC = glm(daysdth_bin ~ alive3$fibfin,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$fibfin + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+###APRI
+modelC = glm(daysdth_bin ~ alive3$aprix,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$aprix + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+###FB
+modelC = glm(daysdth_bin ~ alive3$fibfib,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$fibfib + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+###
+###
+###
+###CRISP DATA
+### Last visit
+modelC = glm(daysdth_bin ~ alive3$num_drug_encounter1,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$num_drug_encounter1 + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+##ED Count
+modelC = glm(daysdth_bin ~ alive3$edvisits,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$edvisits + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+##BH ED COUNT
+modelC = glm(daysdth_bin ~ alive3$edvisitsbh,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+modelC = glm(daysdth_bin ~ alive3$edvisitsbh + male + black + age + curuser,data=alive3, family=binomial(link="logit"))
+summary(modelC)
+confint.default(modelC) 
+exp(cbind(OR = coef(modelC), confint(modelC)))
+
+
+
+head(alive3)
+install.packages(gtsummary)
+library(gtsummary)
+
+install.packages("gtsummary")
+no
+typeof(alive3$mfx)
+alive3$mfxx= cut(alive3$revmale, c(0.5,10.5,12.5), right=FALSE,
+                    labels=c("1","2"))
+
+library(gtsummary)
+alive3%>%  
+  select(daysdth_bin, age, black, alcyn, thoughts, attempt, curuser, injcoc, injher,anyhomels, plat, screat, 
+         ,edvisits,edvisitsbh,male, fibfib, fibfin, aprix, num_drug_encounter1,
+         cesd16, cesd23, astx, altx) %>%
+  tbl_summary(by=daysdth_bin, missing= "no") %>%
+  add_p()%>%
+  add_overall()%>%
+  add_n() %>%
+  bold_labels()
+
+names(alive3)
+
